@@ -1,0 +1,4 @@
+# Project exclude paths
+/do_a_server/node_modules/
+/read_a_file/node_modules/
+/TP3/node_modules/
