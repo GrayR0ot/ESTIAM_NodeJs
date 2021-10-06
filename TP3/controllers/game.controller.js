@@ -20,12 +20,11 @@ exports.getGame = async function (req, res, next) {
         console.log('INDEX: ' + id);
         JSON.parse(file)['games'].forEach((entry, index) => {
             if (index === id) {
-                return res.status(200).json(JSON.parse(file)['games'][id]);
+                res.status(200).json(JSON.parse(file)['games'][id]);
             }
         })
-        return res.status(404);
-    }).catch(() => {
-        return res.status(500);
+    }).catch((e) => {
+        res.status(500);
     });
 }
 
@@ -46,16 +45,18 @@ exports.deleteGame = async function (req, res, next) {
                     encoding: 'utf-8',
                     flag: 'w'
                 }).then(() => {
-                    return res.status(200).json({success: 'Suppression effectuée avec succès !'});
+                    res.status(200).json({success: 'Suppression effectuée avec succès !'});
+                    res.send()
                 }).catch(() => {
-                    return res.status(200).json({error: 'Suppression impossible !'});
+                    res.status(200).json({error: 'Suppression impossible !'});
+                    res.send()
                 })
             }
         });
     }).catch(() => {
-        return res.status(200).json({error: 'Suppression impossible !'});
+        res.status(200).json({error: 'Suppression impossible !'});
+        res.send()
     });
-    return res.status(200).json({error: 'Jeu inconnu !'});
 }
 
 exports.createGame = async function (req, res, next) {
@@ -77,15 +78,15 @@ exports.createGame = async function (req, res, next) {
                 encoding: 'utf-8',
                 flag: 'w'
             }).then(() => {
-                return res.status(200).json({success: 'Création effectuée avec succès !'});
-            }).catch(() => {
-                return res.status(200).json({error: 'Création impossible !'});
+                res.status(200).json({success: 'Création effectuée avec succès !'});
+            }).catch((e) => {
+                console.log(e)
+                res.status(200).json({error: 'Création impossible !'});
             })
         } else {
-            return res.status(200).json({error: 'Paramètres non valides !'});
+            res.status(200).json({error: 'Paramètres non valides !'});
         }
     }).catch(() => {
-        return res.status(200).json({error: 'Création impossible !'});
+        res.status(200).json({error: 'Création impossible !'});
     });
-    return res.status(200).json({error: 'Erreur inconnue !'});
 }
